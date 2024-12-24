@@ -1,0 +1,13 @@
+pandas
+numpy 
+tflearn 
+scikit-learn
+scikit-image
+tensorflow==1.15.0
+matplotlib
+plotly  
+seaborn 
+protobuf==3.20.0
+OpenCV-python==3.4.8.29
+flask
+mysql-connector

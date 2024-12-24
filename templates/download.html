@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+   <style>
+    
+    .form-control {
+            box-shadow: none !important;
+            background-color: white !important; 
+        }
+
+        .form-select {
+            box-shadow: none !important;
+            background-color: white !important; 
+        }
+
+        .pagination .page-link {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+   </style>
+</head>
+
+<body>
+
+    <div class="d-flex flex-column min-vh-100 bg-white">
+
+        <nav class="navbar navbar-expand-lg bg-dark border-dark border-bottom">
+            <div class="container-fluid mx-5">
+                <a class="navbar-brand text-light fw-bold fs-5" href="#">
+                    <i class="fa-solid fa-shield-halved"></i> SECURE DATA</a> 
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars text-light"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light fw-bold"
+                                aria-current="page" href="/upload">Upload Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/managefiles">Manage Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/requests">Request Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/myrequests">Manage Requests</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold text-decoration-underline link-offset-2 active" href="/download">Download Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        {% if success %}
+        <div class="position-fixed top-0 toastae start-50 translate-middle-x p-3" style="z-index: 11">
+            <div id="liveToast1" class="toast bg-success bg-opacity-75 hide" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body ms-auto text-white">
+                        {{success}}
+                    </div>
+                    <button type="button" class="btn-close shadow-none btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if error %}
+        <div class="position-fixed top-0 toastae start-50 translate-middle-x p-3" style="z-index: 11">
+            <div id="liveToast1" class="toast bg-danger bg-opacity-75 hide" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body ms-auto text-white">
+                        {{error}}
+                    </div>
+                    <button type="button" class="btn-close shadow-none btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="container my-4">
+
+            <div class="d-flex mt-5 mb-3">
+                <h3 class="text-danger-emphasis link-offset-1 text-decoration-underline flex-grow-1 flex-md-grow-0">
+                    Download Files
+                </h3>
+            </div>
+
+            <form method="post" id="uploadform" enctype="multipart/form-data">
+
+                <div class="row justify-content-center mb-3 mt-4 gx-5 gy-4">
+ 
+                    <div class="col-md-12">
+                     
+
+                        <div class="row justify-content-around">
+
+                            <div class="col-md-8 position-relative">
+                                <label for="secretkey" class="form-label">Secret Key:</label>
+                                <input type="number" name="secretkey" id="secretkey" placeholder="Secret Key" class="form-control shadow-none border border-primary" runat="server" />
+                                <div class="invalid-tooltip rounded-3">
+                                    * Enter Secret Key
+                                </div>
+                            </div>
+                            
+
+                            <div class="col-md-4 position-relative">
+                                <label class="d-block form-label">&nbsp;</label>
+                                <input id="downloadbutton" type="submit" value="Download" runat="server" class="btn btn-success shadow-none w-100" onserverclick="Download" />
+                            </div>
+                               
+
+                        </div>
+                    </div>
+
+                </div>
+  
+                
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+
+    <script>
+        $(function () {
+
+            $('.toast').toast('show');
+  
+            
+            $("form").on("submit", function(e) {
+                debugger;
+
+                var secretkey = $("#secretkey").val() 
+
+                var testemail = new RegExp("[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+                var testphone = new RegExp("^[6-9][0-9]{9}$");
+                var testaadhar = new RegExp("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$");
+                var testusn = new RegExp("(?=(.*[a-zA-Z])(?=.*[0-9]))");
+                var testvehicleno = new RegExp('^[A-Z]{2}\\d{2}[A-Z]{1,2}\\d{4}$');
+                var testlicenseno = new RegExp('^[0-9]{11}$');
+                  
+
+                if (secretkey != "") {
+                    $("#secretkey").removeClass("is-invalid");
+                } else {
+                    $("#secretkey").addClass("is-invalid");
+                    e.preventDefault();
+                } 
+
+
+            })
+
+
+            $("input,textarea,select").on("keydown change", function() {
+                $(this).removeClass("is-invalid")
+            })
+
+            $("#reset").on("click", function() {
+                $("input,textarea,select").removeClass("is-invalid")
+            })
+
+        })
+    </script>
+
+</body>
+
+
+</html>

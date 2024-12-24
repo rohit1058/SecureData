@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+
+<body>
+
+    <div class="d-flex flex-column min-vh-100 bg-white">
+
+        <nav class="navbar navbar-expand-lg bg-dark border-dark border-bottom">
+            <div class="container-fluid mx-5">
+                <a class="navbar-brand text-light fw-bold fs-5" href="#">
+                    <i class="fa-solid fa-shield-halved"></i> SECURE DATA</a> 
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars text-light"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-underline link-offset-2 active text-light fw-bold"
+                                aria-current="page" href="/upload">Upload Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/managefiles">Manage Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/requests">Request Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/myrequests">Manage Requests</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/download">Download Files</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-white fw-bold" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        {% if success %}
+        <div class="position-fixed top-0 toastae start-50 translate-middle-x p-3" style="z-index: 11">
+            <div id="liveToast1" class="toast bg-success bg-opacity-75 hide" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body ms-auto text-white">
+                        {{success}}
+                    </div>
+                    <button type="button" class="btn-close shadow-none btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="container my-4">
+
+            <div class="d-flex mt-5 mb-3">
+                <h3 class="text-danger-emphasis link-offset-1 text-decoration-underline flex-grow-1 flex-md-grow-0">
+                    Upload Files
+                </h3>
+            </div>
+
+            <form method="post" id="uploadform" enctype="multipart/form-data">
+
+                <div class="row justify-content-center mb-3 mt-4 gx-5 gy-4">
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="uid" class="form-label text-dark">Document ID :</label>
+                        <input type="text" name="uid" id="uid" placeholder="Document Id" class="form-control shadow-none border-dark bg-white" value="{{uid}}" readonly />
+                    </div>
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="docname" class="form-label text-dark">Document Name :</label>
+                        <input type="text" name="docname" id="docname" placeholder="Document Name" class="form-control shadow-none border-dark bg-white" />
+                        <div class="invalid-tooltip rounded-3">
+                            * Enter Document Name
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="uploadedby" class="form-label text-dark">Uploaded By :</label>
+                        <input type="text" name="uploadedby" id="uploadedby" placeholder="Uploaded By" class="form-control shadow-none border-dark bg-white"  value="{{uploadedby}}"  />
+                        <div class="invalid-tooltip rounded-3">
+                            * Enter Uploaded By
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="uploadeddate" class="form-label text-dark">Uploaded Date :</label>
+                        <input type="text" name="uploadeddate" id="uploadeddate" placeholder="Uploaded Date" class="form-control shadow-none border-dark bg-white" value="{{date}}" readonly="true" />
+                        <div class="invalid-tooltip rounded-3">
+                            * Enter Uploaded Date
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="file" class="form-label text-dark">Upload Document :</label>
+                        <input type="file" name="file" id="file" class="form-control shadow-none border-dark bg-white" />
+                        <div class="invalid-tooltip rounded-3">
+                            * Select Document
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 position-relative"> 
+                        <label for="author" class="form-label text-dark">Author of Document :</label>
+                        <input type="text" name="author" id="author" placeholder="Author of Document" class="form-control shadow-none border-dark bg-white" />
+                        <div class="invalid-tooltip rounded-3">
+                            * Enter Author Of Document
+                        </div>
+                    </div>
+
+                    <div class="w-100"></div>
+
+                    <div class="col-md-6 position-relative">
+                        <input type="reset" id="reset" value="Reset" class="btn btn-danger shadow-none w-100" />
+                    </div>
+                    <div class="col-md-6"> 
+                        <button type="submit" class="btn btn-dark shadow-none w-100">Upload</button>
+                    </div>
+
+                </div>
+  
+                
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+
+
+    <script>
+        $(function () {
+
+            $('.toast').toast('show');
+
+
+            $("form").on("submit", function(e) {
+                debugger;
+
+                var docname = $("#docname").val()
+                var uploadedby = $("#uploadedby").val()
+                var uploadeddate = $("#uploadeddate").val()
+                var file = $("#file").val()
+                var author = $("#author").val()
+
+                var testemail = new RegExp("[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+                var testphone = new RegExp("^[6-9][0-9]{9}$");
+                var testaadhar = new RegExp("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$");
+                var testusn = new RegExp("(?=(.*[a-zA-Z])(?=.*[0-9]))");
+                var testvehicleno = new RegExp('^[A-Z]{2}\\d{2}[A-Z]{1,2}\\d{4}$');
+                var testlicenseno = new RegExp('^[0-9]{11}$');
+                 
+
+
+                if (docname != "") {
+                    $("#docname").removeClass("is-invalid");
+                } else {
+                    $("#docname").addClass("is-invalid");
+                    e.preventDefault();
+                }
+
+                if (uploadedby != "") {
+                    $("#uploadedby").removeClass("is-invalid");
+                } else {
+                    $("#uploadedby").addClass("is-invalid");
+                    e.preventDefault();
+                }
+
+                if (uploadeddate != "") {
+                    $("#uploadeddate").removeClass("is-invalid");
+                } else {
+                    $("#uploadeddate").addClass("is-invalid");
+                    e.preventDefault();
+                }
+
+                if (file != "") {
+                    $("#file").removeClass("is-invalid");
+                } else {
+                    $("#file").addClass("is-invalid");
+                    e.preventDefault();
+                }
+
+                if (author != "") {
+                    $("#author").removeClass("is-invalid");
+                } else {
+                    $("#author").addClass("is-invalid");
+                    e.preventDefault();
+                }
+ 
+            })
+            
+
+            $("input,textarea,select").on("keydown change", function() {
+                $(this).removeClass("is-invalid")
+            })
+
+            $("#reset").on("click", function() {
+                $("input,textarea,select").removeClass("is-invalid")
+            })
+
+        })
+    </script>
+
+</body>
+
+
+</html>
